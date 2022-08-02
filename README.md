@@ -18,7 +18,7 @@ This simple script will scan the <strong>evd_files_location</strong> variable as
 <li>ObjectProperties</li>
 <li>MasterPolicySettings</li>
 </br>
-If, in your EVD export, you append a datetime stamp as I do, then as long as "FilesList" (for example) stil appears in the filename somewhere it will be found.
+If, in your EVD export, you append a datetime stamp as I do, then as long as "FilesList" (for example) still appears in the filename somewhere it will be found.
 </br></br>
 Change the <strong>evd_files_location</strong> variable in the script to your value or create a <strong>C:\EVD</strong> directory and put your EVD export files in there.
 </br></br>
