@@ -23,3 +23,5 @@ If, in your EVD export, you append a datetime stamp as I do, then as long as "Fi
 Change the <strong>evd_files_location</strong> variable in the script to your value or create a <strong>C:\EVD</strong> directory and put your EVD export files in there.
 </br></br>
 The script uses <strong>tqdm</strong> <a href="https://github.com/tqdm/tqdm">https://github.com/tqdm/tqdm</a> as a progress bar so you will need to have that module available before running the script.
+</br></br>
+The output database pyEVD.db is saved the location of the EVD export files themselves, default <strong>C:\EVD</strong>
