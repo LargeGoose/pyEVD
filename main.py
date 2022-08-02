@@ -1,7 +1,7 @@
 # Python script to take the standard EVD output and create a SQLite DB
 # Version 1.0 - August 2nd 2022
 
-# Set the evd_files_location variable to the directory wheer your EVD export files are
+# Set the evd_files_location variable to the directory where your EVD export files are
 evd_files_location = 'C:\\EVD\\'
 # Optionally change the list of reports expected. I wouldn't do that, I'd change your report names
 list_of_reports = ['FilesList', 'LogList', 'OwnersList', 'RequestsList', 'SafesList', 'GroupsList', 'GroupMembersList',
@@ -97,32 +97,32 @@ def create_table(list):
         ExpirationDate TEXT,
         List TEXT,
         Retrieve TEXT,
-	    CreateObject TEXT,
-	    UpdateObject TEXT,
-	    UpdateObjectProperties TEXT,
-	    RenameObject TEXT,
-	    [Delete] TEXT,
-	    ViewAudit TEXT,
-	    ViewOwners TEXT,
-	    UsePassword TEXT,
-	    InitiateCPMChange TEXT,
-	    InitiateCPMChangeWithManualPassword TEXT,
-	    CreateFolder TEXT,
-	    DeleteFolder TEXT,
-	    UnlockObject TEXT,
-	    MoveFrom TEXT,
-	    MoveInto TEXT,
-	    ManageSafe TEXT,
-	    ManageSafeOwners TEXT,
-	    ValidateSafeContent TEXT,
-	    Backup TEXT,
-	    NoConfirmRequired TEXT,
-	    Confirm TEXT,
-	    EventsList TEXT,
-	    EventsAdd TEXT
-	    );
-	    CREATE INDEX OwnersIND ON Owners(SafeID, OwnerID);
-	    '''
+	CreateObject TEXT,
+	UpdateObject TEXT,
+	UpdateObjectProperties TEXT,
+	RenameObject TEXT,
+	[Delete] TEXT,
+	ViewAudit TEXT,
+	ViewOwners TEXT,
+	UsePassword TEXT,
+	InitiateCPMChange TEXT,
+	InitiateCPMChangeWithManualPassword TEXT,
+	CreateFolder TEXT,
+	DeleteFolder TEXT,
+	UnlockObject TEXT,
+	MoveFrom TEXT,
+	MoveInto TEXT,
+	ManageSafe TEXT,
+	ManageSafeOwners TEXT,
+	ValidateSafeContent TEXT,
+	Backup TEXT,
+	NoConfirmRequired TEXT,
+	Confirm TEXT,
+	EventsList TEXT,
+	EventsAdd TEXT
+	);
+	CREATE INDEX OwnersIND ON Owners(SafeID, OwnerID);
+	'''
     elif list == "RequestsList":
         # Create the Requests table
         sql = '''CREATE TABLE Requests (
@@ -215,7 +215,7 @@ def create_table(list):
         UserID INTEGER,
         MemberIsGroup TEXT
         );
-        CREATE  INDEX GroupMembersIND ON GroupMembers(GroupID, UserID);
+        CREATE INDEX GroupMembersIND ON GroupMembers(GroupID, UserID);
         '''
     elif list == "UsersList":
         # Create the Users table
@@ -257,7 +257,7 @@ def create_table(list):
         LocationID INTEGER,
         LocationName TEXT
         );
-        CREATE  INDEX LocationsIND ON Locations(LocationID);
+        CREATE INDEX LocationsIND ON Locations(LocationID);
         '''
     elif list == "ConfirmationsList":
         # Create the Confirmations table
@@ -273,7 +273,7 @@ def create_table(list):
         Action INTEGER,
         ActionDate TEXT
         );
-        CREATE  INDEX ConfirmationsIND ON Confirmations(RequestID, SafeID, UserID);
+        CREATE INDEX ConfirmationsIND ON Confirmations(RequestID, SafeID, UserID);
         '''
     elif list == "Italogfile":
         # Create the ITALog table
@@ -282,7 +282,7 @@ def create_table(list):
         Code TEXT,
         LogMessage TEXT
         );
-        CREATE  INDEX ITALogIND ON ITALog(Time);
+        CREATE INDEX ITALogIND ON ITALog(Time);
         '''
     elif list == "EventsList":
         # Create the Events table
@@ -423,7 +423,6 @@ for entry in os.scandir(evd_files_location):
         # Test to see if the file is expected from the name
         for report in list_of_reports:
             if report in entry.name:
-                # print(f'Found report name match for "{report}"')
                 list_of_reports.remove(report)
                 file_names.append(entry.name)
 print(f'{file_count} files in directory {evd_files_location} processed')
@@ -815,11 +814,10 @@ for evd_file in file_names:
         create_table("EventsList")
         print(f'Processing file {evd_file}')
         with open(evd_files_location + evd_file, newline='\n') as csvfile:
-            rowcount = sum(1 for line in csvfile)
             csvfile.seek(0)
             reader = csv.reader(csvfile, delimiter=',', quotechar='"')
             count = 0
-            for row in tqdm(reader, total=rowcount, desc=evd_file):
+            for row in tqdm(reader, desc=evd_file): # there is no way to determine the number of rows as many are multiline
                 count += 1
                 if count == 1:
                     # Replace the < and > chars from each of the header fields
